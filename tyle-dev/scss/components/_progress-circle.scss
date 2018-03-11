@@ -1,0 +1,79 @@
+$progress-circle-size: 12rem;
+$progress-circle-ratio: 60%;
+/* ========================== Progress Circle ========================= */
+
+/* ====================== Progress Circle  Colors ===================== */
+@each $color, $value in $colors {
+  .progress-bg-#{$color} {
+    --progress-circle-color: $value;
+    --progress-circle-color-2: rgba($value, .3);
+  }
+}
+
+/* ====================== Progress Circle Components ===================== */
+.progress-circle,
+.progress-circle-text,
+.progress-circle-percent::after,
+.progress-circle-percent::before {
+   width: var(--progress-circle-size);
+   height: calc(var(--progress-circle-size) / 2);
+
+}
+
+
+.progress-circle {
+   overflow: hidden;
+   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); 
+   display: inline-flex;
+   justify-content: center;
+   font-family: sans-serif;
+   margin: 20px;
+   border-radius: 50% / 100% 100% 0 0;
+   background-image: radial-gradient(circle at bottom, transparent $progress-circle-ratio, var(--progress-circle-color-2) $progress-circle-ratio + 1%); 
+
+   &-percent {
+     display: flex;
+     transform: translateY(calc(var(--progress-circle-size) / 2)) translateX(-var(--progress-circle-size)) rotateX(-180deg);   
+     position: absolute;
+     background-image: radial-gradient(circle at bottom,transparent $progress-circle-ratio, var(--progress-circle-color) $progress-circle-ratio + 1%);       
+     border-radius: 50% / 100% 100% 0 0;
+     transform-origin: bottom center;  
+   
+     &::after { content: ''; }
+     
+   }
+  
+   &-text,
+   &-percent-text {
+    line-height: calc(calc(var(--progress-circle-size) * 0.916666) / 1.1);
+    font-size: calc(var(--progress-circle-size) * 0.12);
+    position: absolute;   
+    text-align: center;    
+    color: var(--progress-circle-color);
+    user-select: none; 
+  }
+  
+  &-percent-text {
+    font-size: calc(var(--progress-circle-size) * 0.083333333);
+    line-height: calc(calc(var(--progress-circle-size) * 0.6666666) / 1.1);
+  
+    &::after { content: '%'; }
+  }
+
+}
+
+.progress-circle-xl {
+  --progress-circle-size: $progress-circle-size + $progress-circle-size / 3;
+}
+
+.progress-circle-lg {
+  --progress-circle-size: $progress-circle-size + $progress-circle-size / 6;
+}
+
+.progress-circle-sm {
+  --progress-circle-size: $progress-circle-size - $progress-circle-size / 6;
+}
+
+.progress-circle-xs {
+  --progress-circle-size: $progress-circle-size - $progress-circle-size / 3;
+}
